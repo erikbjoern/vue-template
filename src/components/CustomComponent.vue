@@ -92,20 +92,49 @@ watch(
   () => generateSquares(),
   { immediate: true }
 )
+
+const containerPositioningClass =
+  'absolute top-[25vh] bottom-0 left-[50vw] flex flex-col w-[16rem] -translate-x-1/2'
 </script>
 
 <template>
   <div
-    class="pt-18 absolute top-[35vh] bottom-[35vh] left-[50vw] z-10 flex w-fit -translate-x-1/2 flex-col items-stretch justify-center overflow-hidden bg-cyan-500 px-10"
+    class="z-20"
+    :class="[animate ? 'text-cyan-900' : 'text-white', containerPositioningClass]"
   >
-    <div class="font-[Oswald] text-8xl uppercase text-[#447788]">VITE</div>
-    <div
-      class="flex justify-between px-1 font-[Oswald] text-4xl uppercase text-[#447788]"
-    >
-      <span v-for="(char, i) in 'project'" :key="i">{{ char }}</span>
+    <div class="mx-auto flex flex-col pt-16">
+      <div class="font-[Oswald] text-8xl uppercase">VUE</div>
+      <div class="flex justify-between px-1 font-[Oswald] text-4xl uppercase">
+        <span v-for="(char, i) in 'project'" :key="i">{{ char }}</span>
+      </div>
+      <div class="flex justify-between px-1 font-sans text-lg">
+        <span v-for="(char, i) in 'template'" :key="i">{{ char }}</span>
+      </div>
     </div>
-    <div class="flex justify-between px-1 font-sans text-lg text-[#447788]">
-      <span v-for="(char, i) in 'template'" :key="i">{{ char }}</span>
+  </div>
+  <div class="container z-10" :class="containerPositioningClass">
+    <div
+      class="pt-18 relative mx-auto flex h-[30vh] w-full flex-col items-stretch justify-center shadow-xl"
+      style="background: linear-gradient(-160deg, rgb(134 239 172) 3%, darkcyan)"
+    >
+      <div
+        class="absolute inset-2 border border-cyan-400"
+        :style="{
+          ...(!animate && {
+            background: 'linear-gradient(-160deg, darkcyan 3%, rgb(66, 88, 108))',
+          }),
+        }"
+      />
+    </div>
+    <div class="mt-4 flex flex-col">
+      <p
+        v-for="name of ['vue3', 'vite', 'tailwindcss', 'typescript'].sort(
+          (a, b) => b.length - a.length
+        )"
+        :key="name"
+        class="text-center text-lg tracking-wider text-green-900 opacity-50"
+        v-text="name"
+      />
     </div>
   </div>
   <div
@@ -118,7 +147,7 @@ watch(
     ]"
   />
   <label
-    class="absolute bottom-2 left-1/2 flex -translate-x-1/2 select-none items-center gap-2 text-lg opacity-50"
+    class="absolute bottom-2 left-1/2 z-20 flex -translate-x-1/2 select-none items-center gap-2 text-lg opacity-50"
   >
     <input v-model="animate" type="checkbox" />
     Animate
@@ -217,7 +246,8 @@ watch(
   animation: rotation linear infinite;
 }
 
-body * {
+.container,
+.container * {
   mix-blend-mode: multiply;
 }
 </style>
